@@ -1,6 +1,15 @@
+snippet ifmain
+	if __name__ == '__main__':
+		${1:main()}
+# __magic__
+snippet _
+	__${1:init}__${2}
+snippet init
+	#!/usr/bin/env python
+	# -*- coding: utf-8 -*-
+snippet class
+	class ${1:ClassName}:
+		def __init__(self):
+			${2}
 snippet pdb
 	import pdb; pdb.set_trace()
-
-snippet main
-	if __name__ == "__main__":
-
