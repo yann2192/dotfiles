@@ -173,7 +173,7 @@ set pumheight=6             " Keep a small completion window
 
 
 """ Moving Around/Editing
-set cursorline              " have a line indicate the cursor location
+"set cursorline              " have a line indicate the cursor location
 set ruler                   " show the cursor position all the time
 set nostartofline           " Avoid moving cursor to BOL when jumping around
 set virtualedit=block       " Let cursor move past the last char in <C-v> mode
@@ -220,8 +220,9 @@ set laststatus=2            " Always show statusline, even if only 1 window.
 set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})\ %{fugitive#statusline()}
 
 " displays tabs with :set list & displays when a line runs off-screen
-set listchars=tab:>-,eol:$,trail:-,precedes:<,extends:>
-set list
+"set listchars=tab:>-,eol:$,trail:-,precedes:<,extends:>
+set listchars=tab:>-,trail:-,precedes:<,extends:>
+set list                   " caractere $ en fin de ligne
 
 """ Searching and Patterns
 set ignorecase              " Default to using case insensitive searches,
@@ -232,14 +233,14 @@ set incsearch               " Incrementally search while typing a /regex
 
 """" Display
 if has("gui_running")
-    colorscheme desert
+    colorscheme vanzan_color
     " Remove menu bar
     set guioptions-=m
 
     " Remove toolbar
     set guioptions-=T
 else
-    colorscheme torte
+    colorscheme desert
 endif
 
 " Paste from clipboard
@@ -247,7 +248,7 @@ map <leader>p "+p
 
 " Quit window on <leader>q
 nnoremap <leader>q :q<CR>
-
+"
 " hide matches on <leader>space
 nnoremap <leader><space> :nohlsearch<cr>
 
@@ -262,11 +263,15 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " ==========================================================
 au BufRead *.js set makeprg=jslint\ %
 
+" Don't allow snipmate to take over tab
+"autocmd VimEnter * ino <c-j> <c-r>=TriggerSnippet()<cr>
 " Use tab to scroll through autocomplete menus
-"autocmd VimEnter * imap <expr> <Tab> pumvisible() ? "<C-N>" : "<Tab>"
-"autocmd VimEnter * imap <expr> <S-Tab> pumvisible() ? "<C-P>" : "<S-Tab>"
-
+autocmd VimEnter * imap <expr> <Tab> pumvisible() ? "<C-N>" : "<Tab>"
+autocmd VimEnter * imap <expr> <S-Tab> pumvisible() ? "<C-P>" : "<S-Tab>"
+"snor <c-j> <esc>i<right><c-r>=TriggerSnippet()<cr>
 let g:acp_completeoptPreview=1
+autocmd VimEnter * ino <tab> <c-r>=TriggerSnippet()<cr>
+snor <tab> <esc>i<right><c-r>=TriggerSnippet()<cr>
 
 " ===========================================================
 " FileType specific changes
@@ -290,7 +295,7 @@ py << EOF
 import os.path
 import sys
 import vim
-if 'VIRTUAL_ENV' in os.environ:
+if 'VIRTUALENV' in os.environ:
     project_base_dir = os.environ['VIRTUAL_ENV']
     sys.path.insert(0, project_base_dir)
     activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
@@ -303,3 +308,8 @@ if filereadable($VIRTUAL_ENV . '/.vimrc')
 endif
 
 set colorcolumn=79
+:autocmd InsertEnter * set cul
+:autocmd InsertLeave * set nocul
+
+let python_highlight_all = 1
+au FileType python syn keyword pythonDecorator True None False self
