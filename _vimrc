@@ -270,8 +270,8 @@ autocmd VimEnter * imap <expr> <Tab> pumvisible() ? "<C-N>" : "<Tab>"
 autocmd VimEnter * imap <expr> <S-Tab> pumvisible() ? "<C-P>" : "<S-Tab>"
 "snor <c-j> <esc>i<right><c-r>=TriggerSnippet()<cr>
 let g:acp_completeoptPreview=1
-autocmd VimEnter * ino <tab> <c-r>=TriggerSnippet()<cr>
-snor <tab> <esc>i<right><c-r>=TriggerSnippet()<cr>
+autocmd VimEnter * ino <tab> <c-r>=snipMate#TriggerSnippet()<cr>
+snor <tab> <esc>i<right><c-r>=snipMate#TriggerSnippet()<cr>
 
 " ===========================================================
 " FileType specific changes
